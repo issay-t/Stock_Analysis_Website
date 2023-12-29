@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AkitaAnalytics</title>
+        <!-- <link rel="stylesheet" href="stock_info.css"> -->
+    </head>
+    <body>
+        <div id="Basic_Overview">
+            <div id="title"></div>
+            <div id="sub_info"></div>
+            <div id="price"></div>
+            <div id="price_sub_info"></div>
+            <!-- Basic Company Overview displayed here -->
+        </div>
+        <div id="Basic_Charts">
+            <!-- Basic data displayed in charts here -->
+            <canvas id="StockChart"></canvas>
+        </div>
+        <div id="Timeframe_buttons">
+            <button id="btn-1day">1 Day</button>
+            <button id="btn-5days">5 Days</button>
+            <button id="btn-1month">1 Month</button>
+            <button id="btn-ytd">YTD</button>
+            <button id="btn-1year">1 Year</button>
+            <button id="btn-5year">5 Year</button>
+            <button id="btn-allTime">All Time</button>
+            <!-- Add more buttons for other timeframes as needed -->
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@^3"></script>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="stock_info.js"></script>
+    </body>
+</html>

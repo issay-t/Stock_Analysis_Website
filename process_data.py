@@ -38,26 +38,26 @@ class processData :
                 closePrices.insert(0, price[self.typePrice])
             else :
                 break
-        return [timestamps, closePrices]
+        return {'timestamps': timestamps, 'closePrices': closePrices}
+    
     def getYTDChartData(self) :
         chart_data = self.stock.get_data()
         # Extract start date of the data set for reference.
-        last_refreshed_date = chart_data['Meta Data']['3. Last Refreshed'].split()[0]
+        last_refreshed_date = chart_data['Meta Data']['3. Last Refreshed']
         
         # Put timestamps and closePrices (x/y values) into separate arrays.
         timestamps = []
         closePrices = []
         keyIdentifier = list(chart_data.keys())[1] # Ex. "Time Series (5min)"
         for time, price in chart_data[keyIdentifier].items() :
-            date = time.split()[0]
-            if (datetime.strptime(date, "%Y-%m-%d").year() == 
-                datetime.strptime(last_refreshed_date, "%Y-%m-%d").year()) :
+            if (datetime.strptime(time, "%Y-%m-%d").year == 
+                datetime.strptime(last_refreshed_date, "%Y-%m-%d").year) :
                 # Convert string to datetime object
                 timestamps.insert(0,datetime.strptime(time, "%Y-%m-%d"))
                 closePrices.insert(0, price[self.typePrice])
             else :
                 break
-        return [timestamps, closePrices]
+        return {'timestamps': timestamps, 'closePrices': closePrices}
 
 # Required: symbol is a valid ticker symbol
 # Returns an array containing [timestamps, closePrices].
@@ -86,9 +86,8 @@ def getFiveYearData(symbol) :
     return processData(currStock, 262, "%Y-%m-%d", "5. adjusted close").getChartData()
 
 # symbol = 'AAPL'
-# data = getFiveYearData(symbol)
-# xvalues = data[0]
-# yvalues = data[1]
-# print(len(xvalues))
+# data = getIntradayData(symbol)
+# xvalues = data["timestamps"]
+# yvalues = data["closePrices"]
 # for i in range(len(xvalues)) :
-#     print(xvalues[i].strftime("%Y-%m-%d") + " : " + yvalues[i])
+#     print(xvalues[i].strftime("%Y-%m-%d %H:%M:%S") + " : " + yvalues[i])
