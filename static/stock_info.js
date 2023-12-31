@@ -1,26 +1,48 @@
 // Function that gets stock data from backend.
 // Required: lengthTime must be: intraday, weekly, monthly, ...
-function getStockData(lengthTime){
-    callMessage = '/getData/' + lengthTime;
-    // Assume you fetched JSON data from an endpoint
-    fetch(callMessage)
-    .then(response => response.json()) // Convert the response to JSON
-    .then(data => {
-        // Process the received JSON data (data is now a JavaScript object)
-        return data;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle errors if any
-    });
+function getStockData(lengthTime) {
+    const callMessage = '/getData/' + lengthTime;
+    //console.log(callMessage);
+
+    return fetch(callMessage)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            //Convert timestamps to js date objects and adjust for eastern time.
+            data['timestamps'] = data['timestamps'].map(timestamp => new Date(timestamp));
+            data['timestamps'].forEach((timestamp, index) => {
+                const currentHours = timestamp.getHours();
+                timestamps[index] = new Date(timestamp.setHours(currentHours + 5));
+            });
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            throw error; // Rethrow the error for further handling
+        });
 }
 
 // Function to display intraday line graph of stock data:
 async function display_intraday_chart(){
     try {
-        const chart_data = getStockData('intraday');
+        const chart_data = await getStockData('intraday');
+        //console.log(chart_data)
+        // timestamps = chart_data['timestamps'].map(timestamp => new Date(timestamp));
+        // // Adjust hours to match UTD.
+        // timestamps.forEach((timestamp, index) => {
+        //     const currentHours = timestamp.getHours();
+        //     timestamps[index] = new Date(timestamp.setHours(currentHours + 5));
+        // });
         timestamps = chart_data['timestamps'];
         closePrices = chart_data['closePrices'];
+
+        for (i = 0; i < timestamps.length; i++) {
+            console.log(timestamps[i] + ": " + closePrices[i]);
+        }
 
         // Create and display chart.
         const ctx = document.getElementById("StockChart").getContext("2d");
@@ -61,7 +83,8 @@ async function display_intraday_chart(){
                             tooltipFormat: 'h:mm a', // Format for tooltips
                             displayFormats: {
                                 hour: 'h:mm a', // Format for the x-axis labels
-                            }
+                            },
+                            timezone: 'UTC'
                         },
                         title: {
                             display: true

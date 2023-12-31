@@ -17,10 +17,7 @@ def index():
 @app.route('/symbolProcess', methods=['GET'])
 def symbolProcess():
     global ticker_symbol  # Access the global variable
-    ticker_symbol = request.args.get('ticker_symbol')
-
-@app.route('/stock_info.html')
-def stock_info():
+    ticker_symbol = request.args.get('symbol')
     return render_template("stock_info.html")
 
 @app.route('/getData/<string:lengthTime>', methods=['GET'])
