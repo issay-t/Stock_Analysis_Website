@@ -23,6 +23,7 @@ def symbolProcess():
 @app.route('/getData/<string:lengthTime>', methods=['GET'])
 def send_data(lengthTime):
     global ticker_symbol  # Access the global ticker_symbol set previously
+    global local_data
 
     # Call the backend function to get new data based on the ticker symbol
     if (lengthTime == "intraday") :
@@ -37,6 +38,8 @@ def send_data(lengthTime):
         return jsonify(getOneYearData(ticker_symbol))
     elif (lengthTime == "5year") :
         return jsonify(getFiveYearData(ticker_symbol))
+    else : 
+        return jsonify(getAllTimeData(ticker_symbol))
 
 if __name__ == '__main__':
     app.run(debug=True)

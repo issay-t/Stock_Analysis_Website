@@ -1,13 +1,6 @@
 from stock_class import stock
 from datetime import datetime
 
-#New Concept:
-#Use pandas data reader to extract data from alphavantage api
-#Get each function (intraday, weekly, montly, ...) to spit out only the 
-#x values, y-values
-#Use flask to create the website.
-# integrate your html with flask by passing the labels, values to the javascript.
-
 class processData :
     def __init__(self, stock, numdays = 0, dtf = "%Y-%m-%d %H:%M:%S", typePrice = "4. close"):
         self.stock = stock
@@ -58,6 +51,20 @@ class processData :
             else :
                 break
         return {'timestamps': timestamps, 'closePrices': closePrices}
+    
+    def getAllTimeChartData(self) :
+        chart_data = self.stock.get_data()
+        
+        # Put timestamps and closePrices (x/y values) into separate arrays.
+        timestamps = []
+        closePrices = []
+        keyIdentifier = list(chart_data.keys())[1] # Ex. "Time Series (5min)"
+        
+        for time, price in chart_data[keyIdentifier].items() :
+            # Convert string to datetime object
+            timestamps.insert(0,datetime.strptime(time, "%Y-%m-%d"))
+            closePrices.insert(0, price[self.typePrice])
+        return {'timestamps': timestamps, 'closePrices': closePrices}
 
 # Required: symbol is a valid ticker symbol
 # Returns an array containing [timestamps, closePrices].
@@ -85,9 +92,6 @@ def getFiveYearData(symbol) :
     currStock = stock(symbol, 'TIME_SERIES_WEEKLY_ADJUSTED')
     return processData(currStock, 262, "%Y-%m-%d", "5. adjusted close").getChartData()
 
-# symbol = 'AAPL'
-# data = getIntradayData(symbol)
-# xvalues = data["timestamps"]
-# yvalues = data["closePrices"]
-# for i in range(len(xvalues)) :
-#     print(xvalues[i].strftime("%Y-%m-%d %H:%M:%S") + " : " + yvalues[i])
+def getAllTimeData(symbol) :
+    currStock = stock(symbol, 'TIME_SERIES_MONTHLY_ADJUSTED')
+    return processData(currStock, dtf = "%Y-%m-%d", typePrice = "5. adjusted close").getAllTimeChartData()

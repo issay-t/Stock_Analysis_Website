@@ -77,75 +77,6 @@ class create_chart {
     }
 }
 
-// // Function to display intraday line graph of stock data:
-// async function display_intraday_chart(){
-//     try {
-//         const chart_data = await getStockData('intraday');
-//         //console.log(chart_data)
-//         timestamps = chart_data['timestamps'].map(timestamp => new Date(timestamp));
-//         // Adjust hours to match UTD.
-//         timestamps.forEach((timestamp, index) => {
-//             const currentHours = timestamp.getHours();
-//             timestamps[index] = new Date(timestamp.setHours(currentHours + 5));
-//         });
-//         //timestamps = chart_data['timestamps'];
-//         closePrices = chart_data['closePrices'];
-
-//         for (i = 0; i < timestamps.length; i++) {
-//             console.log(timestamps[i] + ": " + closePrices[i]);
-//         }
-
-//         // Create and display chart.
-//         const ctx = document.getElementById("StockChart").getContext("2d");
-
-//         // Destroy old chart if it exists:
-//         var pos = $(document).scrollTop();
-//         if (window.myChart) {
-//             window.myChart.destroy();
-//         }
-//         window.myChart = new Chart(ctx, {
-//             type: "line",
-//             data: {
-//                 labels: timestamps,
-//                 datasets: [{
-//                     label: "Close Prices",
-//                     data: closePrices,
-//                     borderColor: "rgba(75, 192, 192, 1)",
-//                     borderWidth: 1,
-//                     fill: false
-//                 }]
-//             },
-//             options: {
-//                 plugins: {
-//                     title: {
-//                         display: true,
-//                         text: 'Intraday Close Prices:',
-//                         padding: {
-//                             top: 10,
-//                             bottom: 30
-//                         }
-//                     }
-//                 },
-//                 scales: {
-//                     x: {
-//                         type: 'timeseries',
-//                         time: {
-//                             unit: 'hour', // Display time only
-//                             tooltipFormat: 'h:mm a', // Format for tooltips
-//                             displayFormats: {
-//                                 hour: 'h:mm a', // Format for the x-axis labels
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         });
-//         $(document).scrollTop(pos);
-//     } catch (error) {
-//         console.error('Error displaying chart:', error);
-//     }
-// }
-
 //Function to display intraday line graph of stock data:
 async function display_intraday_chart(){
     var options = {
@@ -395,9 +326,51 @@ async function display_fiveYear_chart(){
     const chart = await new create_chart('5year', options);
     chart.displayChart();
 }
+
+async function display_allTime_chart(){
+    var options = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'All Time Close Prices: ',
+                padding: {
+                    top: 10,
+                    bottom: 30
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'timeseries',
+                time: {
+                    unit: 'day', // Display time only
+                    tooltipFormat: 'MMM d, y', // Format for tooltips
+                    displayFormats: {
+                        day: 'y', // Format for the x-axis labels
+                    }
+                },
+                ticks: {
+                    callback: function(value) {
+                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
+                        let dayOfWeek = new Date(Date.parse(value)).getDay();
+                        // First check if it's a weekend (Sunday or Saturday)
+                        if (dayOfWeek === 0 || dayOfWeek === 6) {
+                            // Return undefined to skip the label (to handle chart.js bug)
+                            return;
+                        } else {
+                            return value;
+                        }
+                    },
+                    maxTicksLimit: 5, // to make x-axis less crowded.
+                    autoSkip: true
+                }
+            }
+        }
+    }
+    const chart = await new create_chart('allTime', options);
+    chart.displayChart();
+}
    
-
-
 // Handle button clicks
 // 1 Day Button:
 document.getElementById('btn-1day').addEventListener('click', function () {
@@ -424,9 +397,9 @@ document.getElementById('btn-5year').addEventListener('click', function () {
     display_fiveYear_chart();
 });
 // // All Time Button:
-// document.getElementById('btn-allTime').addEventListener('click', function () {
-//     display_allTime_chart(tickerSymbol);
-// });
+document.getElementById('btn-allTime').addEventListener('click', function () {
+    display_allTime_chart();
+});
 
 // Basic EventListener for when stock_info.html first loads:
 document.addEventListener('DOMContentLoaded', function() {
