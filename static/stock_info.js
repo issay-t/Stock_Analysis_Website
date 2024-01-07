@@ -130,19 +130,7 @@ async function display_week_chart(){
                     }
                 },
                 ticks: {
-                    // function to fix overlapping labels bug.
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // Check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                          // Return undefined to skip the label
-                          return;
-                        } else {
-                          // Return the label to display it
-                          return value;
-                        }
-                    }
+                    source: 'data', // Automatically calculate the ticks based on the data range
                 }
             }
         }
@@ -174,17 +162,7 @@ async function display_month_chart(){
                     }
                 },
                 ticks: {
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // First check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            // Return undefined to skip the label (to handle chart.js bug)
-                            return;
-                        } else {
-                            return value;
-                        }
-                    },
+                    source: 'data',
                     maxTicksLimit: 6, // to make x-axis less crowded.
                     autoSkip: true
                 }
@@ -218,18 +196,8 @@ async function display_ytd_chart(){
                     }
                 },
                 ticks: {
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // First check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            // Return undefined to skip the label (to handle chart.js bug)
-                            return;
-                        } else {
-                            return value;
-                        }
-                    },
-                    maxTicksLimit: 4, // to make x-axis less crowded.
+                    source: 'data',
+                    maxTicksLimit: 5, // to make x-axis less crowded.
                     autoSkip: true
                 }
             }
@@ -262,18 +230,8 @@ async function display_oneYear_chart(){
                     }
                 },
                 ticks: {
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // First check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            // Return undefined to skip the label (to handle chart.js bug)
-                            return;
-                        } else {
-                            return value;
-                        }
-                    },
-                    maxTicksLimit: 4, // to make x-axis less crowded.
+                    source: 'data',
+                    maxTicksLimit: 5, // to make x-axis less crowded.
                     autoSkip: true
                 }
             }
@@ -306,18 +264,8 @@ async function display_fiveYear_chart(){
                     }
                 },
                 ticks: {
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // First check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            // Return undefined to skip the label (to handle chart.js bug)
-                            return;
-                        } else {
-                            return value;
-                        }
-                    },
-                    maxTicksLimit: 4, // to make x-axis less crowded.
+                    source: 'data',
+                    maxTicksLimit: 5, // to make x-axis less crowded.
                     autoSkip: true
                 }
             }
@@ -350,17 +298,7 @@ async function display_allTime_chart(){
                     }
                 },
                 ticks: {
-                    callback: function(value) {
-                        // Calculate the day of the week (0 for Sunday, 6 for Saturday)
-                        let dayOfWeek = new Date(Date.parse(value)).getDay();
-                        // First check if it's a weekend (Sunday or Saturday)
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            // Return undefined to skip the label (to handle chart.js bug)
-                            return;
-                        } else {
-                            return value;
-                        }
-                    },
+                    source: 'data',
                     maxTicksLimit: 5, // to make x-axis less crowded.
                     autoSkip: true
                 }
