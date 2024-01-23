@@ -61,8 +61,10 @@ def send_data(lengthTime):
         stock_info = getOneYearData(ticker_symbol)
     elif (lengthTime == "5year") :
         stock_info = getFiveYearData(ticker_symbol)
-    else : 
+    elif (lengthTime == "allTime") :
         stock_info = getAllTimeData(ticker_symbol)
+    else: 
+        stock_info = getOverview(ticker_symbol)
 
     # Save the extracted python data to a pickle file in the local database.
     with open(filepath, 'wb') as file:

@@ -4,14 +4,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>AkitaAnalytics</title>
-        <!-- <link rel="stylesheet" href="stock_info.css"> -->
+        <link rel="stylesheet" href="/static/stock_info.css">
     </head>
     <body>
         <div id="Basic_Overview">
             <div id="title"></div>
             <div id="sub_info"></div>
-            <div id="price"></div>
-            <div id="price_sub_info"></div>
+            <!-- <div id="price"></div> -->
+            <!-- <div id="price_sub_info"></div> -->
+            <div id="company_description"></div>
             <!-- Basic Company Overview displayed here -->
         </div>
         <div id="Basic_Charts">
@@ -19,13 +20,13 @@
             <canvas id="StockChart"></canvas>
         </div>
         <div id="Timeframe_buttons">
-            <button id="btn-1day">1 Day</button>
-            <button id="btn-5days">5 Days</button>
-            <button id="btn-1month">1 Month</button>
-            <button id="btn-ytd">YTD</button>
-            <button id="btn-1year">1 Year</button>
-            <button id="btn-5year">5 Year</button>
-            <button id="btn-allTime">All Time</button>
+            <button class="button" id="btn-1day">1 Day</button>
+            <button class="button" id="btn-5days">5 Days</button>
+            <button class="button" id="btn-1month">1 Month</button>
+            <button class="button" id="btn-ytd">YTD</button>
+            <button class="button" id="btn-1year">1 Year</button>
+            <button class="button" id="btn-5year">5 Year</button>
+            <button class="button" id="btn-allTime">All Time</button>
             <!-- Add more buttons for other timeframes as needed -->
         </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@^3"></script>

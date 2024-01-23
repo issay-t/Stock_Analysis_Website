@@ -65,6 +65,10 @@ class processData :
             timestamps.insert(0,datetime.strptime(time, "%Y-%m-%d"))
             closePrices.insert(0, price[self.typePrice])
         return {'timestamps': timestamps, 'closePrices': closePrices}
+    
+    def getOverview(self) :
+        return self.stock.get_data()
+
 
 # Required: symbol is a valid ticker symbol
 # Returns an array containing [timestamps, closePrices].
@@ -95,3 +99,8 @@ def getFiveYearData(symbol) :
 def getAllTimeData(symbol) :
     currStock = stock(symbol, 'TIME_SERIES_MONTHLY_ADJUSTED')
     return processData(currStock, dtf = "%Y-%m-%d", typePrice = "5. adjusted close").getAllTimeChartData()
+
+def getOverview(symbol) :
+    currStock = stock(symbol, 'OVERVIEW')
+    return processData(currStock).getOverview()
+

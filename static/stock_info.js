@@ -1,5 +1,5 @@
 // Function that gets stock data from backend.
-// Required: lengthTime must be: intraday, weekly, monthly, ...
+// Required: lengthTime must be: intraday, weekly, monthly, ... or overview.
 function getStockData(lengthTime) {
     const callMessage = '/getData/' + lengthTime;
     //console.log(callMessage);
@@ -84,9 +84,13 @@ async function display_intraday_chart(){
             title: {
                 display: true,
                 text: 'Intraday Close Prices:',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -95,7 +99,7 @@ async function display_intraday_chart(){
                 type: 'timeseries',
                 time: {
                     unit: 'hour', // Display time only
-                    tooltipFormat: 'h:mm a', // Format for tooltips
+                    tooltipFormat: 'MMM d, h:mm a', // Format for tooltips
                     displayFormats: {
                         hour: 'h:mm a', // Format for the x-axis labels
                     }
@@ -113,9 +117,13 @@ async function display_week_chart(){
             title: {
                 display: true,
                 text: '5-Day Trailing Close Prices:',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -145,9 +153,13 @@ async function display_month_chart(){
             title: {
                 display: true,
                 text: ' 1 Month Trailing Close Prices:',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -179,9 +191,13 @@ async function display_ytd_chart(){
             title: {
                 display: true,
                 text: 'YTD Close Prices:',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -213,9 +229,13 @@ async function display_oneYear_chart(){
             title: {
                 display: true,
                 text: '1 Year Close Prices: ',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -247,9 +267,13 @@ async function display_fiveYear_chart(){
             title: {
                 display: true,
                 text: '5 Year Close Prices: ',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -281,9 +305,13 @@ async function display_allTime_chart(){
             title: {
                 display: true,
                 text: 'All Time Close Prices: ',
+                color: 'black',
+                font: {
+                    size: 20
+                },
                 padding: {
-                    top: 10,
-                    bottom: 30
+                    top: 20,
+                    bottom: 20
                 }
             }
         },
@@ -308,6 +336,29 @@ async function display_allTime_chart(){
     const chart = await new create_chart('allTime', options);
     chart.displayChart();
 }
+
+async function display_overview() {
+    try {
+        const overview_data = await getStockData("overview");
+
+        // Display title:
+        document.getElementById('title').innerText = overview_data["Name"] + ' (' + overview_data["Symbol"] + ')';
+        // Apply styles dynamically after adding content
+        title.classList.add('title');
+
+        // Display smaller info on stock:
+        document.getElementById('sub_info').innerText = overview_data["Exchange"] + ': ' + overview_data["Symbol"] +
+            ' - AlphaVantage 1D Delayed Trading Prices - ' + overview_data["Currency"];
+        sub_info.classList.add('sub_info');
+
+        // Display description of company:
+        document.getElementById('company_description').innerText = overview_data["Description"];
+        company_description.classList.add('company_description');
+
+    } catch(error){
+        console.error('Error displaying overview data:', error);
+    }
+}
    
 // Handle button clicks
 // 1 Day Button:
@@ -318,6 +369,7 @@ document.getElementById('btn-1day').addEventListener('click', function () {
 document.getElementById('btn-5days').addEventListener('click', function () {
     display_week_chart();
 });
+
 // 1 Month Button:
 document.getElementById('btn-1month').addEventListener('click', function () {
     display_month_chart();
@@ -341,16 +393,8 @@ document.getElementById('btn-allTime').addEventListener('click', function () {
 
 // Basic EventListener for when stock_info.html first loads:
 document.addEventListener('DOMContentLoaded', function() {
-    // // EDIT: TO VALIDATE TICKER SYMBOL
-    // if (!tickerSymbol) {
-    //     // Redirect to the index.html if no ticker symbol is provided
-    //     window.location.href = 'index.html';
-    // }
-    // Display title of stock.
-    //document.getElementById('title').innerText = tickerSymbol;
-
     // Display overview of company fundamentals:
-    //display_overview(tickerSymbol);
+    display_overview();
     // Display intraday graph:
     display_intraday_chart();
 })

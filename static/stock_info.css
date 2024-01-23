@@ -1,0 +1,30 @@
+.title {
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 35px; 
+}
+
+.sub_info {
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px; 
+}
+
+.company_description {
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px; 
+}
+
+#Timeframe_buttons {
+    text-align: center; /* Center the text within the div */
+}
+
+#Timeframe_buttons .button {
+    margin: 18px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 12px; 
+    display: inline-block; /* Optional: Align buttons horizontally */
+}
