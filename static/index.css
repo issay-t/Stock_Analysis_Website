@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; /* Remove default body margin */
+}
+  
+h1 {
+    text-align: center;
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 50px;
+}
+  
+#search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+#tickerInput, #button {
+    padding: 10px; /* Adjust the padding as needed */
+    font-size: 16px; /* Adjust the font size as needed */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+  
+#tickerInput {
+    width: 300px; /* Adjust the width of the input field */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    margin-right: 10px; /* Optional: Add margin between input and button */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+  
+#button {
+    width: 150px; /* Adjust the width of the button */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
