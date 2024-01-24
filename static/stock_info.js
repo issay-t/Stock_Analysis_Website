@@ -20,6 +20,40 @@ function getStockData(lengthTime) {
         });
 }
 
+// Function that gets UTD API call count from backend.
+function getAPICount() {
+    const callMessage = '/getAPICount';
+    //console.log(callMessage);
+
+    return fetch(callMessage)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            throw error; // Rethrow the error for further handling
+        });
+}
+
+// Function that displays the call count:
+async function displayCallCount() {
+    try {
+        var count = await getAPICount();
+        console.log('API Count:', count);
+        document.getElementById('CallCount').innerText = "Current API Call Count - " + count + 
+        ", Daily Limit - 25";
+        CallCount.classList.add('CallCount');
+    } catch(error) {
+        console.error('Error fetching API count:', error);
+    } 
+}
+
 // Class that assists in creating functions to display different charts.
 class create_chart {
     constructor(lengthTime, options){
@@ -391,8 +425,19 @@ document.getElementById('btn-allTime').addEventListener('click', function () {
     display_allTime_chart();
 });
 
+// Get all elements with the class "button"
+const buttons = document.querySelectorAll('.button');
+// Add a click event listener to each button
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        displayCallCount();
+    });
+});
+
 // Basic EventListener for when stock_info.html first loads:
 document.addEventListener('DOMContentLoaded', function() {
+    // Usage example
+    displayCallCount();
     // Display overview of company fundamentals:
     display_overview();
     // Display intraday graph:

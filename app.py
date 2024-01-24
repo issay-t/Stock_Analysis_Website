@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 from dotenv import load_dotenv
 from process_data import *
 from datetime import datetime
@@ -13,6 +13,28 @@ load_dotenv() # Load environment variables from .env file
 api_key = os.getenv('ALPHA_VANTAGE_API_KEY') # Access the API key
 ticker_symbol = 'AAPL' #Set as default until user changes it.
 
+# Function to get rid of outdated files in the local database.
+def resetDataBase() :
+    folder_path = 'local_database/'
+    # List all files in the folder
+    files = os.listdir(folder_path)
+
+    # Iterate through each file
+    for file_name in files:
+        # Get the full path of the file
+        filepath = os.path.join(folder_path, file_name)
+
+        # Check if the path is a file (not a subdirectory)
+        file_modified_time = datetime.fromtimestamp(os.path.getmtime(filepath))
+        current_time = datetime.now()
+
+        # If file is old remove it.
+        if (current_time.date() != file_modified_time.date()):
+           os.remove(filepath)
+
+#Reset database when server runs.
+resetDataBase()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -22,6 +44,14 @@ def symbolProcess():
     global ticker_symbol  # Access the global variable
     ticker_symbol = request.args.get('symbol')
     return render_template("stock_info.html")
+
+@app.route('/getAPICount', methods=['GET'])
+def send_apiCount():
+    folder_path = 'local_database/'
+    files = os.listdir(folder_path)
+    
+    response = make_response(str(len(files)))
+    return response
 
 @app.route('/getData/<string:lengthTime>', methods=['GET'])
 def send_data(lengthTime):
@@ -42,6 +72,7 @@ def send_data(lengthTime):
             with open(filepath, 'rb') as file:
                 cached_data = pickle.load(file)
                 return jsonify(cached_data)
+        # Else remove it from the folder.
         else:
             os.remove(filepath)
             
