@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify, make_response, redirect, url_for
 from dotenv import load_dotenv
 from process_data import *
 from datetime import datetime
@@ -47,8 +47,22 @@ def index():
 @app.route('/symbolProcess', methods=['GET'])
 def symbolProcess():
     global ticker_symbol  # Access the global variable
+    global api_callCount
     ticker_symbol = request.args.get('symbol')
-    return render_template("stock_info.html")
+
+    #Check if files exist already:
+    filesStatus = 'DNE'
+    folder_path = 'local_database/'
+    intraday_filepath = os.path.join(folder_path, f'{ticker_symbol}_intraday.pkl')
+    overview_filepath = os.path.join(folder_path, f'{ticker_symbol}_overview.pkl')
+    if (os.path.exists(intraday_filepath) and os.path.exists(overview_filepath)):
+        filesStatus = 'Exists'
+
+    if (api_callCount <= 23 or filesStatus == 'Exists') :
+        return render_template("stock_info.html")
+    else :
+        alert_message = "Daily API call limits have been reached. Only previously searched stocks may be analyzed."
+        return render_template("index.html", alert_message = alert_message)
 
 @app.route('/getAPICount', methods=['GET'])
 def send_apiCount():
@@ -59,10 +73,27 @@ def send_apiCount():
     response = make_response(str(api_callCount))
     return response
 
+@app.route('/checkFile/<string:lengthTime>', methods=['GET'])
+def checkFile(lengthTime):
+    # global ticker_symbol
+    global ticker_symbol
+
+    folder_path = 'local_database/'
+    filepath = os.path.join(folder_path, f'{ticker_symbol}_{lengthTime}.pkl')
+    
+    fileStatus = 'DNE'
+
+    # Check if the file exists
+    if (os.path.exists(filepath)):
+        # Note all old files are removed when the server starts up so no need to check.
+        fileStatus = 'Exists'
+    
+    response = make_response(fileStatus)
+    return response
+
 @app.route('/getData/<string:lengthTime>', methods=['GET'])
 def send_data(lengthTime):
     global ticker_symbol  # Access the global ticker_symbol set previously
-    global local_data
     global api_callCount
 
     # Specify the folder to store the files

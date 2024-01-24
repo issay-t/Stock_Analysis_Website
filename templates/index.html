@@ -13,5 +13,11 @@
             <input id="tickerInput" type="text" name="symbol" placeholder="Ex. AAPL" required>
             <!--<button id="button" type="submit">-></button>-->
         </form>
+        <!-- Display the alert message if it exists -->
+        {% if alert_message %}
+        <div class="alert_message">
+            {{ alert_message }}
+        </div>
+        {% endif %}
     </body>
 </html>

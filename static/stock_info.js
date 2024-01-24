@@ -54,6 +54,29 @@ async function displayCallCount() {
     } 
 }
 
+// Function that checks if the file wanted exists in the local database.
+// Required: lengthTime must be: intraday, weekly, monthly, ... or overview.
+// Will return true or false;
+function checkFile(lengthTime) {
+    const callMessage = '/checkFile/' + lengthTime;
+    //console.log(callMessage);
+
+    return fetch(callMessage)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            throw error; // Rethrow the error for further handling
+        });
+}
+
 // Class that assists in creating functions to display different charts.
 class create_chart {
     constructor(lengthTime, options){
@@ -424,76 +447,46 @@ async function display_overview() {
         console.error('Error displaying overview data:', error);
     }
 }
+
+// Function to handle general button clicks
+function handleButtonClick(chartDisplayFunction, buttonId, lengthTime) {
+    document.getElementById(buttonId).addEventListener('click', async function () {
+        var count = parseInt(await getAPICount());
+        //console.log("up to here");
+        var fileExists = await checkFile(lengthTime);
+        //console.log("Now up to here");
+        if (count <= 24 || fileExists == 'Exists') {
+            await chartDisplayFunction();
+            displayCallCount();
+        } else {
+            alert("Daily API Call Limit Reached.");
+        }
+    });
+}
    
 // Handle button clicks
-// 1 Day Button:
-document.getElementById('btn-1day').addEventListener('click', function () {
-    display_intraday_chart().then(() => {
-        displayCallCount();
-    });
-});
+// // 1 Day Button:
+handleButtonClick(display_intraday_chart, 'btn-1day', 'intraday');
 // 5 Days Button:
-document.getElementById('btn-5days').addEventListener('click', function () {
-    //display_week_chart();
-    display_week_chart().then(() => {
-        displayCallCount();
-    });
-});
-
+handleButtonClick(display_week_chart, 'btn-5days', 'weekly');
 // 1 Month Button:
-document.getElementById('btn-1month').addEventListener('click', function () {
-    //display_month_chart();
-    display_month_chart().then(() => {
-        displayCallCount();
-    });
-});
+handleButtonClick(display_month_chart, 'btn-1month', 'monthly');
 // YTD Button:
-document.getElementById('btn-ytd').addEventListener('click', function () {
-    //display_ytd_chart();
-    display_ytd_chart().then(() => {
-        displayCallCount();
-    });
-});
+handleButtonClick(display_ytd_chart, 'btn-ytd', 'ytd');
 // 1 Year Button:
-document.getElementById('btn-1year').addEventListener('click', function () {
-    //display_oneYear_chart();
-    display_oneYear_chart().then(() => {
-        displayCallCount();
-    });
-});
+handleButtonClick(display_oneYear_chart, 'btn-1year', 'year');
 // 5 Year Button:
-document.getElementById('btn-5year').addEventListener('click', function () {
-    //display_fiveYear_chart();
-    display_fiveYear_chart().then(() => {
-        displayCallCount();
-    });
-});
+handleButtonClick(display_fiveYear_chart, 'btn-5year', '5year');
 // // All Time Button:
-document.getElementById('btn-allTime').addEventListener('click', function () {
-    //display_allTime_chart();
-    display_allTime_chart().then(() => {
-        displayCallCount();
-    });
-});
-
-// // Get all elements with the class "button"
-// const buttons = document.querySelectorAll('.button');
-// // Add a click event listener to each button
-// buttons.forEach(button => {
-//     button.addEventListener('click', function() {
-//         displayCallCount();
-//     });
-// });
+handleButtonClick(display_allTime_chart, 'btn-allTime', 'allTime');
 
 // Basic EventListener for when stock_info.html first loads:
 document.addEventListener('DOMContentLoaded', async function() {
-    // Usage example
-    //displayCallCount();
     // Display overview of company fundamentals:
     await display_overview();
     // Display intraday graph:
     await display_intraday_chart();
-    console.log("Will display call Count");
+    //console.log("Will display call Count");
     await displayCallCount();
 })
 
