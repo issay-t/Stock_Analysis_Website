@@ -105,8 +105,11 @@ class create_chart {
             windowSettings['options'] = this.options;
             window.myChart = new Chart(ctx, windowSettings);
             $(document).scrollTop(pos);
+            //console.log("Returning promise");
+            return Promise.resolve();
         } catch (error) {
             console.error('Error displaying chart:', error);
+            return Promise.reject(error);
         }
     }
 }
@@ -142,7 +145,11 @@ async function display_intraday_chart(){
         }
     }
     const chart = await new create_chart('intraday', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_week_chart(){
@@ -178,7 +185,11 @@ async function display_week_chart(){
         }
     }
     const chart = await new create_chart('weekly', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_month_chart(){
@@ -216,7 +227,11 @@ async function display_month_chart(){
         }
     }
     const chart = await new create_chart('monthly', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_ytd_chart(){
@@ -254,7 +269,11 @@ async function display_ytd_chart(){
         }
     }
     const chart = await new create_chart('ytd', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_oneYear_chart(){
@@ -292,7 +311,11 @@ async function display_oneYear_chart(){
         }
     }
     const chart = await new create_chart('year', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_fiveYear_chart(){
@@ -330,7 +353,11 @@ async function display_fiveYear_chart(){
         }
     }
     const chart = await new create_chart('5year', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_allTime_chart(){
@@ -368,7 +395,11 @@ async function display_allTime_chart(){
         }
     }
     const chart = await new create_chart('allTime', options);
-    chart.displayChart();
+    return new Promise(async (resolve) => {
+        await chart.displayChart();
+        //console.log("Good up to here.");
+        resolve();
+    });
 }
 
 async function display_overview() {
@@ -397,50 +428,72 @@ async function display_overview() {
 // Handle button clicks
 // 1 Day Button:
 document.getElementById('btn-1day').addEventListener('click', function () {
-    display_intraday_chart();
+    display_intraday_chart().then(() => {
+        displayCallCount();
+    });
 });
 // 5 Days Button:
 document.getElementById('btn-5days').addEventListener('click', function () {
-    display_week_chart();
-});
-
-// 1 Month Button:
-document.getElementById('btn-1month').addEventListener('click', function () {
-    display_month_chart();
-});
-// YTD Button:
-document.getElementById('btn-ytd').addEventListener('click', function () {
-    display_ytd_chart();
-});
-// 1 Year Button:
-document.getElementById('btn-1year').addEventListener('click', function () {
-    display_oneYear_chart();
-});
-// 5 Year Button:
-document.getElementById('btn-5year').addEventListener('click', function () {
-    display_fiveYear_chart();
-});
-// // All Time Button:
-document.getElementById('btn-allTime').addEventListener('click', function () {
-    display_allTime_chart();
-});
-
-// Get all elements with the class "button"
-const buttons = document.querySelectorAll('.button');
-// Add a click event listener to each button
-buttons.forEach(button => {
-    button.addEventListener('click', function() {
+    //display_week_chart();
+    display_week_chart().then(() => {
         displayCallCount();
     });
 });
 
+// 1 Month Button:
+document.getElementById('btn-1month').addEventListener('click', function () {
+    //display_month_chart();
+    display_month_chart().then(() => {
+        displayCallCount();
+    });
+});
+// YTD Button:
+document.getElementById('btn-ytd').addEventListener('click', function () {
+    //display_ytd_chart();
+    display_ytd_chart().then(() => {
+        displayCallCount();
+    });
+});
+// 1 Year Button:
+document.getElementById('btn-1year').addEventListener('click', function () {
+    //display_oneYear_chart();
+    display_oneYear_chart().then(() => {
+        displayCallCount();
+    });
+});
+// 5 Year Button:
+document.getElementById('btn-5year').addEventListener('click', function () {
+    //display_fiveYear_chart();
+    display_fiveYear_chart().then(() => {
+        displayCallCount();
+    });
+});
+// // All Time Button:
+document.getElementById('btn-allTime').addEventListener('click', function () {
+    //display_allTime_chart();
+    display_allTime_chart().then(() => {
+        displayCallCount();
+    });
+});
+
+// // Get all elements with the class "button"
+// const buttons = document.querySelectorAll('.button');
+// // Add a click event listener to each button
+// buttons.forEach(button => {
+//     button.addEventListener('click', function() {
+//         displayCallCount();
+//     });
+// });
+
 // Basic EventListener for when stock_info.html first loads:
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Usage example
-    displayCallCount();
+    //displayCallCount();
     // Display overview of company fundamentals:
-    display_overview();
+    await display_overview();
     // Display intraday graph:
-    display_intraday_chart();
+    await display_intraday_chart();
+    console.log("Will display call Count");
+    await displayCallCount();
 })
 

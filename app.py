@@ -12,9 +12,12 @@ app = Flask(__name__)
 load_dotenv() # Load environment variables from .env file
 api_key = os.getenv('ALPHA_VANTAGE_API_KEY') # Access the API key
 ticker_symbol = 'AAPL' #Set as default until user changes it.
+api_callCount = 0
 
 # Function to get rid of outdated files in the local database.
 def resetDataBase() :
+    global api_callCount
+
     folder_path = 'local_database/'
     # List all files in the folder
     files = os.listdir(folder_path)
@@ -31,6 +34,8 @@ def resetDataBase() :
         # If file is old remove it.
         if (current_time.date() != file_modified_time.date()):
            os.remove(filepath)
+        else:
+            api_callCount = api_callCount + 1
 
 #Reset database when server runs.
 resetDataBase()
@@ -47,34 +52,29 @@ def symbolProcess():
 
 @app.route('/getAPICount', methods=['GET'])
 def send_apiCount():
-    folder_path = 'local_database/'
-    files = os.listdir(folder_path)
+    global api_callCount
+    # folder_path = 'local_database/'
+    # files = os.listdir(folder_path)
     
-    response = make_response(str(len(files)))
+    response = make_response(str(api_callCount))
     return response
 
 @app.route('/getData/<string:lengthTime>', methods=['GET'])
 def send_data(lengthTime):
     global ticker_symbol  # Access the global ticker_symbol set previously
     global local_data
+    global api_callCount
 
     # Specify the folder to store the files
     folder_path = 'local_database/'
     filepath = os.path.join(folder_path, f'{ticker_symbol}_{lengthTime}.pkl')
 
-    # Check if the file exists and is older than a day
+    # Check if the file exists
     if (os.path.exists(filepath)):
-        file_modified_time = datetime.fromtimestamp(os.path.getmtime(filepath))
-        current_time = datetime.now()
-
-        # If the file was uploaded in the same day, use it.
-        if (current_time.date() == file_modified_time.date()):
-            with open(filepath, 'rb') as file:
+        # Note all old files are removed when the server starts up so no need to check.
+        with open(filepath, 'rb') as file:
                 cached_data = pickle.load(file)
                 return jsonify(cached_data)
-        # Else remove it from the folder.
-        else:
-            os.remove(filepath)
             
     # Else the file does not exist. Request new information.
     # Call the backend function to get new data based on the ticker symbol 
@@ -100,6 +100,9 @@ def send_data(lengthTime):
     # Save the extracted python data to a pickle file in the local database.
     with open(filepath, 'wb') as file:
         pickle.dump(stock_info, file)
+
+    # Update api_callCount
+    api_callCount = api_callCount + 1
 
     return jsonify(stock_info)
 
