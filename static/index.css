@@ -1,3 +1,33 @@
+/* Reset default margin and padding for the body and header */
+header {
+    background-color: #333; /* Set background color */
+    color: white; /* Set text color */
+    padding: 10px; /* Add some padding for better visual appearance */
+    margin: 0; /* Remove any default margin */
+    display: flex; /* Use flexbox layout */
+
+    position: absolute;
+    top: 0;
+    width: 100%; /* Make the header extend from left to right */
+    display: block; /* Make it a block-level element */
+}
+
+header h1 {
+    margin: 10px; /* Remove default margin */
+    flex: 1; /* Allow the title to take up remaining space */
+    display: inline;
+    text-align: left;
+}
+
+header img {
+    float: left;
+    width: 40px;
+    height: 40px;
+    display: inline;
+    margin: 10px;
+    order: -1;
+}
+
 body {
     display: flex;
     flex-direction: column;
