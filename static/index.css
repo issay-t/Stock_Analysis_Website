@@ -38,3 +38,10 @@ h1 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
+
+#alert_message {
+    margin: 30px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px; /* Adjust the font size as needed */
+    color: red;
+}
