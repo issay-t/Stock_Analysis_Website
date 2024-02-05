@@ -1,7 +1,13 @@
+body {
+    padding: 0; /* Add some padding for better visual appearance */
+    margin: 0; /* Remove any default margin */
+}
+
 header {
     background-color: #333; /* Set background color */
     color: white; /* Set text color */
-    padding: 10px; /* Add some padding for better visual appearance */
+    padding-top: 10px; /* Add some padding for better visual appearance */
+    padding-bottom: 10px; /* Add some padding for better visual appearance */
     margin: 0; /* Remove any default margin */
     display: flex; /* Use flexbox layout */
 
@@ -16,6 +22,7 @@ header h1 {
     display: inline;
     text-align: left;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-left: 10px;
     font-size: 50px;
 }
 
