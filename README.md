@@ -8,3 +8,5 @@ the stock information is new everyday.
 
 Working on implementing additional analysis tools beside stock-price to time graphs.
 
+Run website by running the following command: "python3 app.py"
+
