@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, url_for
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from process_data import *
+from config import api_key
 from datetime import datetime
 import os
 import pickle
@@ -9,8 +10,8 @@ import pickle
 app = Flask(__name__)
 
 # Declare global variables:
-load_dotenv() # Load environment variables from .env file
-api_key = os.getenv('ALPHA_VANTAGE_API_KEY') # Access the API key
+#load_dotenv() # Load environment variables from .env file
+#api_key = os.getenv('ALPHA_VANTAGE_API_KEY') # Access the API key
 ticker_symbol = 'AAPL' #Set as default until user changes it.
 api_callCount = 0
 

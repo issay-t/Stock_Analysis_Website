@@ -1,5 +1,5 @@
 import requests
-from app import api_key
+from config import api_key
 
 class stock:
     def __init__(self, symbol, function, interval='5min', outputsize='compact', extended_hours='false'):
