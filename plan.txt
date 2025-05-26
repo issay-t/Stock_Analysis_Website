@@ -1,0 +1,10 @@
+Workflow:
+- user input a ticker symbol into form in index.html
+- we immediately check the external database (SQL) if information exists 
+- if the data exists we make a call to the db and pass the data to the backend where the graph is generated
+- else, we make a call to the financial API and pass that information to the external database and the graph
+  such that it can be properly generated.
+- Redirected to stock_info.html, where intraday data is displayed by default
+
+- handle button clicks for 5 day, ...
+
