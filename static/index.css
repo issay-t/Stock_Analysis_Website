@@ -1,0 +1,77 @@
+/* Reset default margin and padding for the body and header */
+header {
+    background-color: #333; /* Set background color */
+    color: white; /* Set text color */
+    padding: 10px; /* Add some padding for better visual appearance */
+    margin: 0; /* Remove any default margin */
+    display: flex; /* Use flexbox layout */
+
+    position: absolute;
+    top: 0;
+    width: 100%; /* Make the header extend from left to right */
+    display: block; /* Make it a block-level element */
+}
+
+header h1 {
+    margin: 10px; /* Remove default margin */
+    flex: 1; /* Allow the title to take up remaining space */
+    display: inline;
+    text-align: left;
+}
+
+header img {
+    float: left;
+    width: 40px;
+    height: 40px;
+    display: inline;
+    margin: 10px;
+    order: -1;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; /* Remove default body margin */
+}
+  
+h1 {
+    text-align: center;
+    margin: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 50px;
+}
+  
+#search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+#tickerInput, #button {
+    padding: 10px; /* Adjust the padding as needed */
+    font-size: 16px; /* Adjust the font size as needed */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+  
+#tickerInput {
+    width: 300px; /* Adjust the width of the input field */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    margin-right: 10px; /* Optional: Add margin between input and button */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+  
+#button {
+    width: 150px; /* Adjust the width of the button */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+#alert_message {
+    margin: 30px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px; /* Adjust the font size as needed */
+    color: red;
+}
