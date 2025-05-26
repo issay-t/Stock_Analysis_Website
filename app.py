@@ -11,16 +11,16 @@ def symbolProcess():
     global ticker_symbol  # Access the global variable
     ticker_symbol = request.args.get('symbol')
 
-    #Check if files exist already:
-    filesStatus = 'DNE'
-    folder_path = 'local_database/'
-    intraday_filepath = os.path.join(folder_path, f'{ticker_symbol}_intraday.pkl')
-    overview_filepath = os.path.join(folder_path, f'{ticker_symbol}_overview.pkl')
-    if (os.path.exists(intraday_filepath) and os.path.exists(overview_filepath)):
-        filesStatus = 'Exists'
+    #Check if data exists already:
+    #filesStatus = 'DNE'
+    #folder_path = 'local_database/'
+    #intraday_filepath = os.path.join(folder_path, f'{ticker_symbol}_intraday.pkl')
+    #overview_filepath = os.path.join(folder_path, f'{ticker_symbol}_overview.pkl')
+    #if (os.path.exists(intraday_filepath) and os.path.exists(overview_filepath)):
+    #    filesStatus = 'Exists'
 
-    if (api_callCount <= 23 or filesStatus == 'Exists') :
-        return render_template("stock_info.html")
-    else :
-        alert_message = "Daily API call limits have been reached. Only previously searched stocks may be analyzed."
-        return render_template("index.html", alert_message = alert_message)
+    #if (api_callCount <= 23 or filesStatus == 'Exists') :
+    #    return render_template("stock_info.html")
+    #else :
+    #    alert_message = "Daily API call limits have been reached. Only previously searched stocks may be analyzed."
+    #    return render_template("index.html", alert_message = alert_message)
