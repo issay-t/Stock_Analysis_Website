@@ -23,7 +23,7 @@ async function display_overview() {
 }
 */
 
-// Function that checks if the file wanted exists in the local database.
+// Function that checks if the file wanted exists in the external database.
 // Required: lengthTime must be: intraday, weekly, monthly, ... or overview.
 // Will return true or false;
 function checkFile(lengthTime) {
@@ -54,8 +54,8 @@ function handleButtonClick(chartDisplayFunction, buttonId, lengthTime) {
         var fileExists = await checkFile(lengthTime);
         //console.log("Now up to here");
         if (fileExists == 'Exists') {
-            await chartDisplayFunction();
-            displayCallCount();
+            //await chartDisplayFunction();
+            //displayCallCount();
         } else {
             alert("API Call Limit Reached. Please try again later.");
         }
